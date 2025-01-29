@@ -1,0 +1,11 @@
+stages:
+  - test
+
+jmeter-test:
+  stage: test
+  script:
+    - jmeter -n -t Consulta de CEP.jmx -l resultado.jtl
+    - jmeter -g resultado.jtl -o relatorio
+  artifacts:
+    paths:
+      - relatorio/
