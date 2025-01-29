@@ -1,11 +1,38 @@
-stages:
-  - test
+name: JMeter Pipeline
 
-jmeter-test:
-  stage: test
-  script:
-    - jmeter -n -t Consulta de CEP.jmx -l resultado.jtl
-    - jmeter -g resultado.jtl -o relatorio
-  artifacts:
-    paths:
-      - relatorio/
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Install JMeter
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jmeter
+
+      - name: Run JMeter Test
+        run: |
+          jmeter -n -t teste.jmx -l resultado.jtl
+
+      - name: Generate Report
+        run: |
+          jmeter -g resultado.jtl -o relatorio
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: jmeter-report
+          path: relatorio/
