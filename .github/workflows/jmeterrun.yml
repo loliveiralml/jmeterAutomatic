@@ -1,45 +1,35 @@
-name: JMeter Test Pipeline
+name: JMeter Test
 
 on:
   push:
     branches:
-      - main  # Rodar quando houver push na branch principal
-  pull_request:
-    branches:
-      - main  # Rodar quando houver pull request para a branch principal
+      - main
 
 jobs:
   jmeter-test:
-    runs-on: ubuntu-latest  # Rodar no Ubuntu mais recente
-    
-    steps:
-      # Passo 1: Checkout do repositório
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    runs-on: ubuntu-latest
 
-      # Passo 2: Instalar o Java (necessário para o JMeter)
-      - name: Set up Java JDK
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'  # Ou outra distribuição, como 'zulu', 'corretto', etc.
+          distribution: 'temurin'
           java-version: '17'
 
-      # Passo 3: Instalar o JMeter
       - name: Install JMeter
         run: |
-          wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.1.tgz
-          tar -xvzf apache-jmeter-5.4.1.tgz
-          export JMETER_HOME=$(pwd)/apache-jmeter-5.4.1
-          export PATH=$JMETER_HOME/bin:$PATH
-          
-      # Passo 4: Rodar os testes JMeter
+          sudo apt update
+          sudo apt install -y jmeter
+
       - name: Run JMeter test
         run: |
-          $JMETER_HOME/bin/jmeter -n -t Automatiza-Jmete.jmx -l result.jtl -e -o report
+          jmeter -n -t Automatiza-Jmete.jmx -l resultado.jtl
 
-      # Passo 5: Upload de artefatos (relatórios)
-      - name: Upload JMeter report as artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload results
+        uses: actions/upload-artifact@v3
         with:
-          name: jmeter-report
-          path: report/
+          name: jmeter-results
+          path: resultado.jtl
