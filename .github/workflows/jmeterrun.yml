@@ -21,6 +21,7 @@ jobs:
       - name: Set up Java JDK
         uses: actions/setup-java@v3
         with:
+          distribution: 'temurin'  # Ou outra distribuição, como 'zulu', 'corretto', etc.
           java-version: '17'
 
       # Passo 3: Instalar o JMeter
