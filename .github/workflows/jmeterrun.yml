@@ -34,7 +34,7 @@ jobs:
       # Passo 4: Rodar os testes JMeter
       - name: Run JMeter test
         run: |
-          $JMETER_HOME/bin/jmeter -n -t Consulta de CEP.jmx -l result.jtl -e -o report
+          $JMETER_HOME/bin/jmeter -n -t Automatiza-Jmete.jmx -l result.jtl -e -o report
 
       # Passo 5: Upload de artefatos (relatórios)
       - name: Upload JMeter report as artifact
