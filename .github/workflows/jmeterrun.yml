@@ -1,6 +1,10 @@
 name: JMeter Test
 
 on:
+  # Executar a cada dia à meia-noite (UTC)
+  schedule:
+    - cron: '30 14 * * *'
+  # Ou você pode programar para executar em push ou pull request
   push:
     branches:
       - main
