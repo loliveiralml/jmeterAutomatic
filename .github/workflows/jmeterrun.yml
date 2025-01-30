@@ -26,7 +26,7 @@ jobs:
 
       - name: Run JMeter test
         run: |
-          jmeter -n -t Automatiza-Jmete.jmx -l resultado.jtl
+          jmeter -n -t Automatiza-Jmete.jmx -l resultados.jtl
 
       - name: Upload results
         uses: actions/upload-artifact@v4
